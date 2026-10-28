@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>Octo_nginx_php8</Name>
+  <Repository>ghcr.io/metaloctopus/octo_nginx_php8:latest</Repository>
+  <Registry>https://github.com/MetalOctopus/Octo_nginx_php8/pkgs/container/octo_nginx_php8</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/MetalOctopus/Octo_nginx_php8/issues</Support>
+  <Project>https://github.com/MetalOctopus/Octo_nginx_php8</Project>
+  <Overview>nginx + PHP-FPM (PHP 8.5) on Alpine for hosting PHP sites. The image is rebuilt every week on the latest official PHP and Alpine base images with all security updates applied, and is smoke-tested and vulnerability-scanned before publishing.&#xD;
+&#xD;
+Put your site in the web root path. HTTPS is served on port 443 with an auto-generated self-signed certificate; place your own cert.pem and key.pem in the Config path under ssl/ to replace it. Dotfiles (.git, .env) are never served, nginx and PHP version banners are hidden, and PHP runs as the PUID/PGID you choose.&#xD;
+&#xD;
+Included PHP extensions: gd, intl, zip, bcmath, exif, sockets, pdo_mysql, mysqli, pdo_pgsql, redis, apcu, opcache; Composer is available in the container.&#xD;
+&#xD;
+Advanced: drop a full nginx server config at config/nginx/default.conf to replace the built-in one, and extra *.ini files in config/php/ to tune PHP.</Overview>
+  <Category>Network:Web Tools:Utilities Productivity:</Category>
+  <WebUI>http://[IP]:[PORT:80]</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/MetalOctopus/Octo_nginx_php8/main/unraid/Octo_nginx_php8.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/MetalOctopus/Octo_nginx_php8/main/unraid/icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires/>
+  <Config Name="HTTP Port" Target="80" Default="80" Mode="tcp" Description="HTTP" Type="Port" Display="always" Required="true" Mask="false">80</Config>
+  <Config Name="HTTPS Port" Target="443" Default="443" Mode="tcp" Description="HTTPS (self-signed certificate unless you supply your own)" Type="Port" Display="always" Required="true" Mask="false">443</Config>
+  <Config Name="Web root" Target="/var/www/html" Default="/mnt/user/appdata/octo_nginx_php8/www" Mode="rw" Description="Your website files" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/octo_nginx_php8/www</Config>
+  <Config Name="Config" Target="/config" Default="/mnt/user/appdata/octo_nginx_php8/config" Mode="rw" Description="ssl/cert.pem + ssl/key.pem, nginx/default.conf override, php/*.ini" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/octo_nginx_php8/config</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID nginx/PHP run as" Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID nginx/PHP run as" Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
+  <Config Name="UMASK" Target="UMASK" Default="022" Mode="" Description="File creation mask" Type="Variable" Display="advanced" Required="false" Mask="false">022</Config>
+  <Config Name="TZ" Target="TZ" Default="UTC" Mode="" Description="Timezone, e.g. Australia/Perth" Type="Variable" Display="advanced" Required="false" Mask="false">UTC</Config>
+  <Config Name="PHP memory limit" Target="PHP_MEMORY_LIMIT" Default="256M" Mode="" Description="PHP memory_limit" Type="Variable" Display="advanced" Required="false" Mask="false">256M</Config>
+  <Config Name="PHP upload limit" Target="PHP_UPLOAD_MAX_FILESIZE" Default="100M" Mode="" Description="upload_max_filesize and post_max_size" Type="Variable" Display="advanced" Required="false" Mask="false">100M</Config>
+</Container>
