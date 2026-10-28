@@ -41,16 +41,16 @@ jobs:
           mkdir -p site
           echo '<?php echo "php-".PHP_MAJOR_VERSION; ' > site/index.php
           echo secret > site/.env
-          docker run -d --name t -p 8080:80 -p 8443:443 -v "$PWD/site:/var/www/html" -v "$PWD/cfg:/config" octo:test
-          for i in $(seq 30); do [ "$(docker inspect -f '{{.State.Health.Status}}' t)" = healthy ] && break; sleep 2; done
-          docker logs t
-          [ "$(docker inspect -f '{{.State.Health.Status}}' t)" = healthy ]
+          docker run -d --name octotest -p 8080:80 -p 8443:443 -v "$PWD/site:/var/www/html" -v "$PWD/cfg:/config" octo:test
+          for i in $(seq 30); do [ "$(docker inspect -f '{{.State.Health.Status}}' octotest)" = healthy ] && break; sleep 2; done
+          docker logs octotest
+          [ "$(docker inspect -f '{{.State.Health.Status}}' octotest)" = healthy ]
           [ "$(curl -s localhost:8080/index.php)" = "php-8" ]
           [ "$(curl -sk https://localhost:8443/index.php)" = "php-8" ]
           [ "$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/.env)" = 403 ]
           curl -sI localhost:8080/ | grep -qi '^server: nginx$'
-          docker exec t php -r 'echo PHP_VERSION, PHP_EOL;'
-          docker exec t sh -c 'ps -o user,comm | grep -E "nginx|php-fpm"'
+          docker exec octotest php -r 'echo PHP_VERSION, PHP_EOL;'
+          docker exec octotest sh -c 'ps -o user,comm | grep -E "nginx|php-fpm"'
 
       - name: Trivy scan (fail on fixable CRITICAL)
         uses: aquasecurity/trivy-action@v0.36.0
